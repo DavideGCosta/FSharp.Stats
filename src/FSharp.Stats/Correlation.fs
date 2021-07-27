@@ -104,6 +104,7 @@ module Correlation =
         /// <returns>The pearson correlation.</returns>
         /// <example> 
         /// <code>
+        /// // To get the correlation between A and B observations:
         /// [ {| A = 312.7; B = 315.5 |}
         ///   {| A = 104.2; B = 101.3 |}
         ///   {| A = 104.; B = 108. |}
