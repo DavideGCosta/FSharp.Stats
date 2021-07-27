@@ -79,14 +79,12 @@ module Correlation =
         /// <returns>The pearson correlation.</returns>
         /// <example> 
         /// <code> 
-        /// // Consider a sequence of paired x and y values.
-        /// let x = [312.7; 104.2; 104.0; 34.7]
-        /// let y = [315.5; 101.3; 108.0; 32.2]
-        /// let paired = Seq.zip x y 
-        /// // paired evaluates to [(312.7, 315.5); (104.2, 101.3); (104.0, 108.0); (34.7, 32.2)]
+        /// // Consider a sequence of paired x and y values
+        /// // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+        /// let xy = [(312.7, 315.5); (104.2, 101.3); (104.0, 108.0); (34.7, 32.2)]
         /// 
         /// // To get the correlation between x and y:
-        /// paired |> Seq.pearsonOfPairs // evaluates to -0.9659514878
+        /// xy |> Seq.pearsonOfPairs // evaluates to -0.9659514878
         /// </code> 
         /// </example>
         let inline pearsonOfPairs (seq:seq<'T * 'T>) = 
