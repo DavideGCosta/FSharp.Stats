@@ -68,12 +68,6 @@ module Correlation =
                         
                         else nan
             loop zero zero zero zero zero zero
- 
-        let inline pearsonOfPairs (seq:seq<'T * 'T>) =
-            seq
-            |> Seq.toArray 
-            |> Array.unzip 
-            ||> pearson
 
         /// weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
         let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
