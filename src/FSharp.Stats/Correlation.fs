@@ -69,12 +69,6 @@ module Correlation =
                         
                         else nan
             loop zero zero zero zero zero zero
- 
-        let inline pearsonOfPairs (seq:seq<'T * 'T>) =
-            seq
-            |> Seq.toArray 
-            |> Array.unzip 
-            ||> pearson
 
         /// <summary>
         /// Calculates the pearson correlation of two samples given as a sequence of paired values. 
