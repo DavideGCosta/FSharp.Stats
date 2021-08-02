@@ -7,26 +7,23 @@ open Expecto
 let kendallCorrelationTests =
     // tested with R Kendall(x,y) function
     testList "Correlation.Seq" [
+        let xs = [|-0.5;-0.4 ;0.  ;0.7;0.65;0.9649|]
+        let ys = [|-0.3;-0.25;-0.1;-0.46;0.103;0.409|]
+
         testCase "kendall" <| fun () ->
-            let xs = [|-0.5;-0.4 ;0.  ;0.7;0.65;0.9649|]
-            let ys = [|-0.3;-0.25;-0.1;-0.46;0.103;0.409|]
             let tau = Seq.kendall xs ys
             Expect.floatClose Accuracy.high tau 0.4666666667 "Should be equal (double precision)"
     //ToDo ties tau_a,tau_b,tau_c
 
         testCase "kendallOfPairs" <| fun() ->
-            let testCase1 = 
-                [-0.5, -0.3; -0.4, -0.25; 0., -0.1; 0.7, -0.46; 0.65, 0.103; 0.9649, 0.409] |> Seq.kendallOfPairs
+            let testCase1 = (xs, ys) ||> Seq.zip |> Seq.kendallOfPairs
             Expect.floatClose Accuracy.high testCase1 0.4666666667 "Should be equal (double precision)"
 
         testCase "kendallBy" <| fun() ->
             let testCase2 = 
-                [ {| xs = -0.5; ys = -0.3 |}
-                  {| xs = -0.4; ys = -0.25 |}
-                  {| xs = 0.; ys = -0.1 |}
-                  {| xs = 0.7; ys = -0.46 |}
-                  {| xs = 0.65; ys = 0.103 |}
-                  {| xs = 0.9649; ys = 0.409 |} ]
+                (xs, ys)
+                ||> Seq.zip
+                |> Seq.map (fun (x,y) -> {| xs = x; ys = y |})
                 |> Seq.kendallBy (fun x -> x.xs, x.ys)
             Expect.floatClose Accuracy.high testCase2 0.4666666667 "Should be equal (double precision)"
     ]
