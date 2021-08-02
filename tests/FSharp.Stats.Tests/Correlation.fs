@@ -72,14 +72,20 @@ let spearmanCorrelationTests =
     // tested with R cor(x,y,method = "spearman")
     let seq1 = [5.05;6.75;3.21;2.66]
     let seq2 = [1.65;2.64;2.64;6.95]
+    let seq3 = [2.0; 47.4; 42.0; 10.8; 60.1; 1.7; 64.0; 63.1; 1.0; 1.4; 7.9; 0.3; 3.9; 0.3; 6.7]
+    let seq4 = [22.6; 8.3; 44.4; 11.9; 24.6; 0.6; 5.7; 41.6; 0.0; 0.6; 6.7; 3.8; 1.0; 1.2; 1.4]
+
+    let ab = [ {| A = 5.05; B = 1.65 |}
+               {| A = 6.75; B = 2.64 |}
+               {| A = 3.21; B = 2.64 |}
+               {| A = 2.66; B = 6.95 |} ]
+
     let testCase1 =
         (seq1, seq2)
         ||> Seq.spearman
 
     let testCase2 = 
-        let seq1 = [2.0; 47.4; 42.0; 10.8; 60.1; 1.7; 64.0; 63.1; 1.0; 1.4; 7.9; 0.3; 3.9; 0.3; 6.7]
-        let seq2 = [22.6; 8.3; 44.4; 11.9; 24.6; 0.6; 5.7; 41.6; 0.0; 0.6; 6.7; 3.8; 1.0; 1.2; 1.4]
-        (seq1, seq2)
+        (seq3, seq4)
         ||> Seq.spearman
 
     let testCase3 = 
@@ -87,9 +93,24 @@ let spearmanCorrelationTests =
          seq2 |> Seq.map decimal)
         ||> Seq.spearman
 
+    let testCase4 = 
+        Seq.zip seq1 seq2
+        |> Seq.spearmanOfPairs
+
+    let testCase5 = 
+        Seq.zip seq3 seq4
+        |> Seq.spearmanOfPairs
+
+    let testCase6 = 
+        ab
+        |> Seq.spearmanBy(fun x -> x.A, x.B)
+
     testList "Correlation.Seq" [
         testCase "spearman" <| fun () ->
             Expect.floatClose Accuracy.high testCase1 -0.632455532 "Should be equal (double precision)"
             Expect.floatClose Accuracy.high testCase2 0.6887298748 "Should be equal (double precision)"
             Expect.floatClose Accuracy.high testCase3 -0.632455532 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase4 -0.632455532 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase5 0.6887298748 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase6 -0.632455532 "Should be equal (double precision)"            
     ]
